@@ -1,6 +1,6 @@
 import sys 
 import logging 
-import logger
+from src import logger
 
 """
 Module to return a error message based on defined custom exception class
