@@ -29,16 +29,45 @@ class ModelTrainer:
                                                 test_arr[:,:-1], test_arr[:,-1])
             
             models = {
-                "Random Forest": RandomForestRegressor(),
                 "Decision Tree":  DecisionTreeRegressor(),
+                "Random Forest": RandomForestRegressor(),
                 "Gradient Boosting": GradientBoostingRegressor(),
-                "Ada boost": AdaBoostRegressor(),
                 "Linear Regressor": LinearRegression(),
+                "Ada boost": AdaBoostRegressor(),  
                 "KNN Regressor": KNeighborsRegressor() 
             }
 
+            params = {
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    'splitter':['best','random'],
+                    'max_features':['sqrt','log2']
+                },
+                "Random Forest":{
+                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    # 'max_features':['sqrt','log2',None],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Gradient Boosting":{
+                    'learning_rate':[.1,.01,.05,.001],
+                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                    # 'criterion':['squared_error', 'friedman_mse'],
+                    # 'max_features':['auto','sqrt','log2'],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Linear Regressor":{},
+
+                "Ada boost":{
+                    'learning_rate':[.1,.01,0.5,.001],
+                    # 'loss':['linear','square','exponential'],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+
+                "KNN Regressor": {'n_neighbors': [3,5,7,9,11]}
+            }
+
             model_report = evaluate_model(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, 
-                                          models=models)
+                                          models=models, params=params)
             
             # to get best model's test R2 score
             best_r2_score = max(model_report.values())
