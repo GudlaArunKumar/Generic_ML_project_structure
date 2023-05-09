@@ -4,4 +4,5 @@ scikit-learn
 seaborn
 matplotlib
 dill
-#-e .
+streamlit
+-e .
